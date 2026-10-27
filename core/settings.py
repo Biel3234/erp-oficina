@@ -30,6 +30,8 @@ INSTALLED_APPS = [
     'corsheaders',
     # DRF
     'rest_framework',
+    # My apps
+    'costumers',
 ]
 
 MIDDLEWARE = [
