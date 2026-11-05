@@ -4,12 +4,12 @@ from rest_framework import serializers
 class MotorcycleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Motorcycle
-        fields = ['id','model', 'color', 'license_plate']
+        fields = ['id','model', 'color', 'license_plate', 'owner']
 
 class MotorcycleCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Motorcycle
-        fields = ['model', 'color', 'license_plate']
+        fields = ['model', 'color', 'license_plate', 'owner']
 
     
 class CostumerSerializer(serializers.ModelSerializer):
