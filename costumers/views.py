@@ -6,8 +6,8 @@ from rest_framework.views import APIView
 from rest_framework import status
 
 
-from .serializers import CostumerSerializer, CostumerCreateSerializer
-from .models import Costumer 
+from .serializers import CostumerSerializer, CostumerCreateSerializer, MotorcycleCreateSerializer, MotorcycleSerializer
+from .models import Costumer, Motorcycle
 
 class CostumerCreateList(APIView):
 
@@ -62,3 +62,20 @@ class CostumerDeleteUpdate(APIView):
         costumer.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+class MotorcycleCreateList(APIView):
+
+    def get(self, request):
+        motorcycles = Motorcycle.objects.all()
+        if not motorcycles:
+            raise APIException('Não existem motos cadastrados')
+        
+        serializer = MotorcycleSerializer(motorcycles, many=True)
+
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        serializer = MotorcycleSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
