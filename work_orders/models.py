@@ -1,4 +1,4 @@
-from costumers.models import Costumer, Motorcycle
+from customers.models import Customer, Motorcycle
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -25,7 +25,7 @@ class WorkOrder(models.Model):
         ('URGENT', 'Urgent'),
     ]
 
-    costumer = models.ForeignKey(Costumer, on_delete=models.PROTECT)
+    customer = models.ForeignKey(Customer, on_delete=models.PROTECT)
     motorcycle = models.ForeignKey(Motorcycle, on_delete=models.PROTECT)
     reported_problem = models.TextField(blank=True, default='')
     diagnosis = models.TextField(blank=True, default='')

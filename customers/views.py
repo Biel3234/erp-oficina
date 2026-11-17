@@ -6,60 +6,60 @@ from rest_framework.views import APIView
 from rest_framework import status
 
 
-from .serializers import CostumerSerializer, CostumerCreateSerializer, MotorcycleCreateSerializer, MotorcycleSerializer
-from .models import Costumer, Motorcycle
+from .serializers import CustomerSerializer, CustomerCreateSerializer, MotorcycleCreateSerializer, MotorcycleSerializer
+from .models import Customer, Motorcycle
 
-class CostumerCreateList(APIView):
+class CustomerCreateList(APIView):
 
     def get(self, request):
-        costumers = Costumer.objects.all()
-        if not costumers:
+        customers = Customer.objects.all()
+        if not customers:
             raise APIException('Não existem clientes cadastrados')
         
-        serializer = CostumerSerializer(costumers, many=True)
+        serializer = CustomerSerializer(customers, many=True)
 
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request):
-        serializer = CostumerSerializer(data=request.data)
+        serializer = CustomerSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class CostumerDeleteUpdate(APIView):
+class CustomerDeleteUpdate(APIView):
 
     def get_object(self, pk):
 
         try:
-            return Costumer.objects.get(pk=pk)
-        except Costumer.DoesNotExist:
+            return Customer.objects.get(pk=pk)
+        except Customer.DoesNotExist:
             return None
         
     def get(self, request, pk):
-        costumer = self.get_object(pk)
-        if costumer is None:
+        customer = self.get_object(pk)
+        if customer is None:
             return Response({"erro": 'não existem cliente com esse id'}, status=status.HTTP_404_NOT_FOUND)
-        serializer = CostumerSerializer(costumer)
+        serializer = CustomerSerializer(customer)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def put(self, request, pk):
-        costumer = self.get_object(pk)
-        if costumer is None:
+        customer = self.get_object(pk)
+        if customer is None:
             return Response({"erro": 'não existem cliente com esse id'}, status=status.HTTP_404_NOT_FOUND)
-        serializer = CostumerCreateSerializer(costumer, data = request.data)
+        serializer = CustomerCreateSerializer(customer, data = request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk):
-        costumer = self.get_object(pk)
-        if costumer is None:
+        customer = self.get_object(pk)
+        if customer is None:
             return Response({"erro": 'não existem cliente com esse id'}, status=status.HTTP_404_NOT_FOUND)
-        costumer.delete()
+        customer.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 class MotorcycleCreateList(APIView):

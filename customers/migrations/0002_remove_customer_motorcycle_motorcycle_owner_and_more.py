@@ -7,21 +7,21 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('costumers', '0001_initial'),
+        ('customers', '0001_initial'),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='costumer',
+            model_name='customer',
             name='motorcycle',
         ),
         migrations.AddField(
             model_name='motorcycle',
             name='owner',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.PROTECT, to='costumers.costumer'),
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.PROTECT, to='customers.customer'),
         ),
         migrations.AlterField(
-            model_name='costumer',
+            model_name='customer',
             name='phone',
             field=models.CharField(max_length=13, unique=True),
         ),

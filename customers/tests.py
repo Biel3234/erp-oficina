@@ -1,20 +1,20 @@
 from django.test import TestCase
 from rest_framework.test import APIClient
 
-from .models import Costumer, Motorcycle
+from .models import Customer, Motorcycle
 
 
 class MotorcycleDeleteUpdateTests(TestCase):
     def setUp(self):
         self.client = APIClient()
-        self.owner = Costumer.objects.create(name="Cliente", phone="11999999999")
+        self.owner = Customer.objects.create(name="Cliente", phone="11999999999")
         self.motorcycle = Motorcycle.objects.create(
             model="Honda CG",
             color="Vermelha",
             license_plate="ABC1234",
             owner=self.owner,
         )
-        self.url = f"/api/costumers/motorcycles/{self.motorcycle.pk}"
+        self.url = f"/api/customers/motorcycles/{self.motorcycle.pk}"
 
     def test_get_returns_motorcycle(self):
         response = self.client.get(self.url)

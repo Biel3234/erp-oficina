@@ -10,7 +10,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('costumers', '0002_remove_costumer_motorcycle_motorcycle_owner_and_more'),
+        ('customers', '0002_remove_customer_motorcycle_motorcycle_owner_and_more'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
@@ -27,9 +27,9 @@ class Migration(migrations.Migration):
                 ('priority', models.CharField(choices=[('LOW', 'Low'), ('MEDIUM', 'Medium'), ('HIGH', 'High'), ('URGENT', 'Urgent')], default='MEDIUM', max_length=15)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
-                ('costumer', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='costumers.costumer')),
+                ('customer', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='customers.customer')),
                 ('created_by', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL)),
-                ('motorcycle', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='costumers.motorcycle')),
+                ('motorcycle', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='customers.motorcycle')),
             ],
         ),
     ]
