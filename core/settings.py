@@ -1,3 +1,4 @@
+from datetime import timedelta
 from pathlib import Path
 from decouple import config
 
@@ -30,6 +31,7 @@ INSTALLED_APPS = [
     'corsheaders',
     # DRF
     'rest_framework',
+    'rest_framework_simplejwt.token_blacklist',
     # My apps
     'customers',
     'work_orders',
@@ -75,6 +77,33 @@ CORS_ALLOWED_ORIGINS = config(
         if origin.strip()
     ],
 )
+
+
+# Django REST Framework
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        # Mantem o login da API navegavel/admin funcionando
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(
+        minutes=config('JWT_ACCESS_MINUTES', default=30, cast=int)
+    ),
+    'REFRESH_TOKEN_LIFETIME': timedelta(
+        days=config('JWT_REFRESH_DAYS', default=7, cast=int)
+    ),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'UPDATE_LAST_LOGIN': True,
+    'AUTH_HEADER_TYPES': ('Bearer',),
+}
 
 
 # Database
