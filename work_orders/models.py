@@ -1,6 +1,7 @@
 from customers.models import Customer, Motorcycle
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models import F, Sum
 from stock.models import Part
 
 
@@ -38,6 +39,13 @@ class WorkOrder(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+
+    def update_parts_cost(self):
+        total = PartWorkOrder.objects.filter(work_order_parts__workorder=self).aggregate(
+            total=Sum(F('quantity') * F('unit_price'), output_field=models.DecimalField())
+        )['total']
+        self.parts_cost = total or 0
+        self.save(update_fields=['parts_cost', 'updated_at'])
 
 class WorkOrderParts(models.Model):
     workorder = models.ForeignKey(WorkOrder, on_delete=models.SET_NULL, null=True)
